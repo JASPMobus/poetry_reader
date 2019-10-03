@@ -1,4 +1,4 @@
-# Poetryreader
+# poetryreader
 
 poetryreader uses the Poetry Foundation website to find the poems of given authors.
 
