@@ -12,9 +12,9 @@ class CLI
         puts "What author would you like to read a poem from?"
         ask = gets.chop
 
-        if ask.downcase == "list poets" || ask.downcase == "list"
+        if ask_handler(ask, "list")
           Poet.all.each { |poet| puts poet.name }
-        elsif ask == "exit"
+        elsif ask_handler(ask, "exit")
           exit!
         else
           poet = Poet.find_or_create_new(ask)
@@ -25,17 +25,28 @@ class CLI
         puts "Which of #{poet.name}'s poems would you like to read?"
         ask = gets.chop
 
-        if ask.downcase == "list poems" || ask.downcase == "list"
+        if ask_handler(ask, "list")
           poet.poems.each { |poem| puts poem.title }
-        elsif ask == "exit"
+        elsif ask_handler(ask, "exit")
           exit!
         else
           Poem.read(ask, poet)
-          puts ""
-
           ask_for_poet = true
         end
       end
     end
+  end
+
+  def ask_handler(ask, compare)
+    ask = ask.downcase.split(" ")
+    compare = compare.split(" ")
+
+    compare.length.times do |i|
+      if ask[i] != compare[i]
+        return false
+      end
+    end
+
+    true
   end
 end

@@ -55,8 +55,8 @@ class Poet
   end
 
   def grab_poems
-    #all poem url-s start with this string
-    poem_url_start = "https://www.poetryfoundation.org/poe"
+    #all readable poem url-s start with this string
+    poem_url_start = "https://www.poetryfoundation.org/poems/"
 
     #check each of the listed entries in the box at the bottom of the page to make sure that they're
     #poems and that they haven't already been generated
