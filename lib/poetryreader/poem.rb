@@ -20,10 +20,6 @@ class Poem
     @@all
   end
 
-  def self.clear_all
-    @@all.clear
-  end
-
   def self.read(title, author)
     #finds the poem with the given title and author and reads it
     poem = Poem.all.find { |poem|  poem.title.downcase == title.downcase && poem.author == author }

@@ -34,10 +34,6 @@ class Poet
     @@all
   end
 
-  def self.clear_all
-    @@all.clear
-  end
-
   #uses a poet's name, which was given to the Object at creation (e.g. "e. e. cummings")
   def create_url
     #we trim away all periods and break apart the name by spaces to use to acquire the url of the poet in the Poetry Foundation website
