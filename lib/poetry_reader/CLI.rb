@@ -29,8 +29,23 @@ class CLI
 
             ask_for_poet = false
           #if there is no poet with this name, then we rescue and alert the user
-          rescue OpenURI::HTTPError => error
-            puts "That poet or command cannot be found. Please check for typos and try again!"
+          rescue OpenURI::HTTPError
+            url = guess_url(ask)
+            noko = Nokogiri::HTML(open(url))
+
+            guess = noko.css("div.o-vr p a").text
+
+            if guess != ""
+              puts "That poet or command can't be found. Did you mean #{guess}? y/(n)"
+              resp = gets
+              if resp = "y"
+                poet = Poet.find_or_create_new(guess)
+
+                ask_for_poet = false
+              end
+            else
+              puts "That poet or command can't be found. Check for typos and try again."
+            end
           end
         end
       else
@@ -78,5 +93,22 @@ class CLI
     end
 
     true
+  end
+
+  def guess_url(name)
+    #example query for edgar allen poe
+    #https://www.poetryfoundation.org/search?query=edgar%20allen%20poe&refinement=poets
+
+    url_name = name.split(" ")
+    url = "https://www.poetryfoundation.org/search?query="
+    url_cap = "&refinement=poets"
+
+    url_name.each do |part|
+      url = "#{url}#{part}+"
+    end
+
+    url = url.chop
+
+    "#{url}#{url_cap}"
   end
 end
