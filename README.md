@@ -1,6 +1,6 @@
 # poetryreader
 
-poetryreader uses the Poetry Foundation website to find the poems of given authors.
+poetryreader uses the Poetry Foundation website to find the poems of given authors. It can print these poems to the terminal for reading.
 
 ## Installation
 
