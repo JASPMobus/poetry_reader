@@ -64,7 +64,7 @@ class Poet
     #check each of the listed entries in the box at the bottom of the page to make sure that they're
     #poems and that they haven't already been generated
     self.noko.css("h3.c-hdgSans_5 a").each do |h3a|
-      if h3a['href'].start_with?(poem_url_start) && !Poem.all.find { |poem| poem.title == h3a.text }
+      if h3a['href'].start_with?(poem_url_start) && !Poem.all.find { |poem| poem.title == h3a.text && poem.author == self }
           Poem.new(h3a.text, self, h3a['href'])
       end
     end
