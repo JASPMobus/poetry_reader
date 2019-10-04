@@ -17,9 +17,13 @@ class CLI
         elsif ask_handler(ask, "exit")
           exit!
         else
-          poet = Poet.find_or_create_new(ask)
+          begin
+            poet = Poet.find_or_create_new(ask)
 
-          ask_for_poet = false
+            ask_for_poet = false
+          rescue OpenURI::HTTPError => error
+            puts "That poet cannot be found. Please check for typos and try again!\n"
+          end
         end
       else
         puts "Which of #{poet.name}'s poems would you like to read?"
@@ -30,8 +34,13 @@ class CLI
         elsif ask_handler(ask, "exit")
           exit!
         else
-          Poem.read(ask, poet)
-          ask_for_poet = true
+          begin
+            Poem.read(ask, poet)
+
+            ask_for_poet = true
+          rescue NoMethodError => error
+            puts "That poem cannot be found. Please check for typos and try again!\n"
+          end
         end
       end
     end
