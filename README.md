@@ -1,13 +1,13 @@
-# poetryreader
+# Poetry Reader
 
-poetryreader uses the Poetry Foundation website to find the poems of given authors. It can print these poems to the terminal for reading.
+PoetryReader uses the Poetry Foundation website to find the poems of given authors. It can print these poems to the terminal for reading.
 
 ## Installation
 
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'poetryreader'
+gem 'poetry_reader'
 ```
 
 And then execute:
@@ -16,7 +16,7 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install poetryreader
+    $ gem install poetry_reader
 
 ## Development
 
