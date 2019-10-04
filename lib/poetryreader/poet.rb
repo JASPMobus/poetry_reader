@@ -14,6 +14,8 @@ class Poet
     @name = name
     @url = self.create_url
 
+    @name = self.grab_name
+
     #grabs all of their poems listed on the website at creation
     self.grab_poems
 
@@ -63,6 +65,11 @@ class Poet
           Poem.new(h3a.text, self, h3a['href'])
       end
     end
+  end
+
+  def grab_name
+    #finds the way Poetry Foundation says the poet's name and updates the Poet Object's name attribute
+    self.noko.css("h1.c-hdgSerif_1").text
   end
 
   def poems
