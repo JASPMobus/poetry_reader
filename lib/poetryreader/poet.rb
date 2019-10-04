@@ -6,12 +6,13 @@ require 'open-uri'
 require "poetryreader/poem"
 
 class Poet
-  attr_accessor :name
+  attr_accessor :name, :url
 
   @@all = []
 
   def initialize(name)
     @name = name
+    @url = self.create_url
 
     #grabs all of their poems listed on the website at creation
     self.grab_poems
@@ -20,6 +21,7 @@ class Poet
   end
 
   def self.find_or_create_new(name)
+    #compares the given name to @@all poets, if it's found, we use that poet, otherwise we create a new one with the given name
     poet = self.all.find { |poet| poet.name.downcase.tr(".", "") == name.downcase.tr(".", "") }
     if poet
       poet
@@ -37,7 +39,7 @@ class Poet
   end
 
   #uses a poet's name, which was given to the Object at creation (e.g. "e. e. cummings")
-  def url
+  def create_url
     #we trim away all periods and break apart the name by spaces to use to acquire the url of the poet in the Poetry Foundation website
     name_no_periods = @name.tr(".", "")
     name_no_periods = name_no_periods.split(" ")
@@ -68,6 +70,7 @@ class Poet
   end
 
   def poems
+    #finds all Poem Objects made with the author listed as this Poet Object
     poems = Poem.all.filter { |poem| poem.author == self }
   end
 end
