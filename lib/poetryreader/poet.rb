@@ -10,9 +10,14 @@ class Poet
 
   @@all = []
 
-  def initialize(name)
+  def initialize(name, url = nil)
     @name = name
-    @url = self.create_url
+
+    if !url
+      @url = self.create_url
+    else
+      @url = url
+    end
 
     @name = self.grab_name
 
@@ -22,13 +27,13 @@ class Poet
     @@all << self
   end
 
-  def self.find_or_create_new(name)
+  def self.find_or_create_new(name, url = nil)
     #compares the given name to @@all poets, if it's found, we use that poet, otherwise we create a new one with the given name
     poet = self.all.find { |poet| poet.name.downcase.tr(".", "") == name.downcase.tr(".", "") }
     if poet
       poet
     else
-      Poet.new(name)
+      Poet.new(name, url)
     end
   end
 
@@ -75,5 +80,22 @@ class Poet
   def poems
     #finds all Poem Objects made with the author listed as this Poet Object
     poems = Poem.all.filter { |poem| poem.author == self }
+  end
+
+  def self.recommend
+    noko = Nokogiri::HTML(open("https://www.poetryfoundation.org/poets"))
+
+    noko.css("h2.c-hdgSans_2 a").each do |h2a|
+
+      possible_recommendation = self.find_or_create_new(h2a.text, h2a['href'])
+
+      if possible_recommendation.poems == []
+        @@all.delete(possible_recommendation)
+      end
+    end
+
+    @@all.each do |poet|
+      puts poet.name
+    end
   end
 end

@@ -18,6 +18,9 @@ class CLI
         #if the user asks to list poets, we give them all poets that they've already created
         elsif ask_compare(ask, "list")
           Poet.all.each { |poet| puts poet.name }
+        #if the user asks for recommendations, we find the featured poets on the website
+        elsif ask_compare(ask, "recommend")
+          Poet.recommend
         #if the user needs help, we give them all possible commands at this stage
         elsif ask_compare(ask, "help")
           puts "\n Put a poet's name if you'd like to read one of their poems.\n List lists all of the poets that you've already requested to read poems from during this use of poetryreader.\n Exit ends your use of poetryreader.\n And, of course, help tells you the above."
