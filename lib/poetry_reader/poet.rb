@@ -96,4 +96,8 @@ class Poet
       puts poet.name
     end
   end
+
+  def read_bio
+    puts self.noko.css("div.c-userContent p").text
+  end
 end
