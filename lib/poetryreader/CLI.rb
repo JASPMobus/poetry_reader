@@ -23,7 +23,7 @@ class CLI
           Poet.recommend
         #if the user needs help, we give them all possible commands at this stage
         elsif ask_compare(ask, "help")
-          puts "\n Put a poet's name if you'd like to read one of their poems.\n List lists all of the poets that you've already requested to read poems from during this use of poetryreader.\n Exit ends your use of poetryreader.\n And, of course, help tells you the above."
+          puts "\n Put a poet's name if you'd like to read one of their poems.\n List lists all of the poets that you've already requested to read poems from during this use of poetryreader.\n Recommend gives you the recommended poets on the Poetry Foundation Poets page.\n Exit ends your use of poetryreader.\n And, of course, help tells you the above."
         #if none of these are the request, then we assume they've given us a poet's name
         else
           begin
