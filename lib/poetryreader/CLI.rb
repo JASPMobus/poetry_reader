@@ -42,16 +42,17 @@ class CLI
         #if the user asks to list the poet's poems, then we give them a list with all readable poems from that poet
         elsif ask_compare(ask, "list")
           poet.poems.each { |poem| puts poem.title }
+        #if the user wants to ask for a different poet, then we go back to asking for poets' names
+        elsif ask_compare(ask, "back")
+          ask_for_poet = true
         #if the user needs help, we give them all possible commands at this stage
         elsif ask_compare(ask, "help")
-          puts "\n Put a poem's name if you'd like to read it.\n List lists all of the readable poems that the currently selected author wrote.\n Exit ends your use of poetryreader.\n And, of course, help tells you the above."
+          puts "\n Put a poem's name if you'd like to read it.\n List lists all of the readable poems that the currently selected author wrote.\n Exit ends your use of poetryreader.\n Back brings you back to inputting poets' names.\n And, of course, help tells you the above."
         #if none of these are the request, then we assume they've given us a poem's title
         else
           begin
             puts ""
             Poem.read(ask, poet)
-
-            ask_for_poet = true
           #if there is no poem with this title and author, then we rescue and alert the user
           rescue NoMethodError => error
             puts "\nThat poem or command cannot be found. Please check for typos and try again!"
