@@ -82,7 +82,7 @@ class CLI
 
         #if the user needs help, we give them all possible commands at this stage
         elsif ask_compare(ask, "help")
-          puts "Put a poem's name if you'd like to read it.\n Bio gives you the biography of the poet. \nList lists all of the readable poems that the currently selected author wrote.\n Exit ends your use of PoetryReader.\n Back brings you back to inputting poets' names.\n And, of course, help tells you the above."
+          puts "Put a poem's name if you'd like to read it.\n Bio gives you the biography of the poet. \n List lists all of the readable poems that the currently selected author wrote.\n Exit ends your use of PoetryReader.\n Back brings you back to inputting poets' names.\n And, of course, help tells you the above."
 
         #if none of these are the request, then we assume they've given us a poem's title
         else
