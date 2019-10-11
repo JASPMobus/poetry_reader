@@ -3,7 +3,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require "poetry_reader/version"
 
 Gem::Specification.new do |spec|
-  spec.name          = "PoetryReader"
+  spec.name          = "poetry_reader"
   spec.version       = PoetryReader::VERSION
   spec.authors       = ["'James Mobus'"]
   spec.email         = ["'mobusj@live.com'"]
