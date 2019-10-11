@@ -4,12 +4,13 @@ require 'nokogiri'
 require 'open-uri'
 
 class Poem
-  attr_accessor :title, :author, :url
+  attr_accessor :title, :comparator_title, :author, :url
 
   @@all = []
 
   def initialize(title, author, url)
     @title = title
+    @comparator_title = comparatise(title)
     @author = author
     @url = url
 
@@ -22,7 +23,7 @@ class Poem
 
   def self.read(title, author)
     #finds the poem with the given title and author and reads it
-    poem = Poem.all.find { |poem|  poem.title.downcase == title.downcase && poem.author == author }
+    poem = Poem.all.find { |poem|  poem.comparator_title.downcase == title.downcase && poem.author == author }
 
     poem.read
   end
@@ -36,5 +37,15 @@ class Poem
     self.noko.css("div[style='text-indent: -1em; padding-left: 1em;']").each do |line|
       puts line.text
     end
+  end
+
+  def comparatise(word)
+    ret = ""
+
+    word.split("").each do |letter|
+      ret = ret + letter.unicode_normalize(:nfkd).chars[0]
+    end
+
+    ret
   end
 end

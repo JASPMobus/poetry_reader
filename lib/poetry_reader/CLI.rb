@@ -48,7 +48,7 @@ class CLI
             if guess != ""
               puts "That poet or command can't be found. Did you mean #{guess}? y/(n)"
               resp = gets
-              if resp = "y"
+              if resp == "y"
                 poet = Poet.find_or_create_new(guess)
 
                 ask_for_poet = false
