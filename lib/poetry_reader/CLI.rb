@@ -24,13 +24,27 @@ class CLI
         elsif ask_compare(ask, "list")
           Poet.all.each { |poet| puts poet.name }
 
+        #if the user wants to read a poem with just its name, we try to do that
+        elsif ask_compare(ask, "read")
+          begin
+            5.times do
+              ask[0] = ""
+            end
+
+            Poem.read_by_title(ask)
+
+          #if there is no poem with this title, then we rescue and alert the user
+          rescue OpenURI::HTTPError
+            puts "A poem with title #{ask} could not be found. Sorry!"
+          end
+
         #if the user asks for recommendations, we find the featured poets on the website
         elsif ask_compare(ask, "recommend")
           Poet.recommend
 
         #if the user needs help, we give them all possible commands at this stage
         elsif ask_compare(ask, "help")
-          puts "Put a poet's name if you'd like to read one of their poems.\n List lists all of the poets that you've already requested to read poems from during this use of poetryreader.\n Recommend gives you the recommended poets on the Poetry Foundation Poets page.\n Exit ends your use of poetryreader.\n And, of course, help tells you the above."
+          puts "Put a poet's name if you'd like to read one of their poems.\n List lists all of the poets that you've already requested to read poems from during this use of poetryreader.\n Read <Poem Title> tries to read a poem using only its title, without asking for the author's name.\n Recommend gives you the recommended poets on the Poetry Foundation Poets page.\n Exit ends your use of poetryreader.\n And, of course, help tells you the above."
 
         #if none of these are the request, then we assume they've given us a poet's name
         else
@@ -47,7 +61,8 @@ class CLI
 
             if guess != ""
               puts "That poet or command can't be found. Did you mean #{guess}? y/(n)"
-              resp = gets
+              resp = gets.chop
+
               if resp == "y"
                 poet = Poet.find_or_create_new(guess)
 
@@ -58,6 +73,7 @@ class CLI
             end
           end
         end
+
       #all the options available if the user is being asked for a poem's name
       else
         puts "Which of #{poet.name}'s poems would you like to read? (help)"
@@ -82,7 +98,7 @@ class CLI
 
         #if the user needs help, we give them all possible commands at this stage
         elsif ask_compare(ask, "help")
-          puts "Put a poem's name if you'd like to read it.\n Bio gives you the biography of the poet. \n List lists all of the readable poems that the currently selected author wrote.\n Exit ends your use of PoetryReader.\n Back brings you back to inputting poets' names.\n And, of course, help tells you the above."
+          puts "Put a poem's name if you'd like to read it.\n Back brings you back to inputting poets' names.\n Bio gives you the biography of the poet. \n List lists all of the readable poems that the currently selected author wrote.\n Exit ends your use of PoetryReader.\n And, of course, help tells you the above."
 
         #if none of these are the request, then we assume they've given us a poem's title
         else
