@@ -49,7 +49,7 @@ class Poem
       poem = Poem.new(noko_poem.text, author, noko_poem["href"])
 
       #tell the user which poem we found and read it to them
-      "Found: #{poem.title} by #{author.name}"
+      puts "Found: #{poem.title} by #{author.name}"
     end
 
     #finally, we read it
@@ -69,10 +69,12 @@ class Poem
     end
 
     #we have 1 too many +-s, so let's just cut the last one off when we return
-    url.chop
+    #also, we refine the search to just poems, so that it won't try to grab authors
+    "#{url.chop}&refinement=poems"
   end
 
   def noko
+    #returns the html from nokogiri-ing the url
     Nokogiri::HTML(open(self.url))
   end
 
@@ -84,9 +86,11 @@ class Poem
   end
 
   def comparatise(word)
+    #makes any nonstandard characters of word into standard latin characters.
     ret = ""
 
-    word.split("").each do |letter|
+    #evaluates each character individually
+    word.chars.each do |letter|
       ret = ret + letter.unicode_normalize(:nfkd).chars[0]
     end
 
