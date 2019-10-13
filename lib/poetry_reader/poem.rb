@@ -36,17 +36,17 @@ class Poem
     if !poem
       #we find the search page for the poem's title, and grab info we need from that
       url = self.search_title(title)
-      noko_poem = Nokogiri::HTML(open(url)).css("h2.c-hdgSans a")[0]
-      noko_author = Nokogiri::HTML(open(url)).css("div.c-feature-sub span")[0].text
+      poem_title = Nokogiri::HTML(open(url)).css("h2.c-hdgSans a")[0].text
+      author_name = Nokogiri::HTML(open(url)).css("div.c-feature-sub span")[0].text
 
       #We grabbed "By <Author Name>", so we cut off the first three characters to make it "<Author Name>"
       3.times do
-        noko_author[0] = ""
+        author_name[0] = ""
       end
 
       #We make the author and the poem objects
-      author = Poet.find_or_create_new(noko_author)
-      poem = Poem.new(noko_poem.text, author, noko_poem["href"])
+      author = Poet.find_or_create_new(author_name)
+      poem = Poem.all.find { |poem|  poem.comparator_title.downcase == title.downcase }
 
       #tell the user which poem we found and read it to them
       puts "Found: #{poem.title} by #{author.name}"
