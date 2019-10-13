@@ -15,6 +15,7 @@ class CLI
       if ask_for_poet
         puts "What author would you like to read a poem from? (help)"
         ask = gets.chop
+        puts ""
 
         #if the user asks to exit, then we do so.
         if ask_compare(ask, "exit")
@@ -35,7 +36,9 @@ class CLI
 
           #if there is no poem with this title, then we rescue and alert the user
           rescue OpenURI::HTTPError
-            puts "A poem with title #{ask} could not be found. Sorry!"
+            puts "A poem with title \"#{ask}\" could not be found. Sorry!"
+          rescue NoMethodError
+            puts "A poem with title \"#{ask}\" could not be found. Sorry!"
           end
 
         #if the user asks for recommendations, we find the featured poets on the website
@@ -44,7 +47,7 @@ class CLI
 
         #if the user needs help, we give them all possible commands at this stage
         elsif ask_compare(ask, "help")
-          puts "Put a poet's name if you'd like to read one of their poems.\n List lists all of the poets that you've already requested to read poems from during this use of Poetry Reader.\n Read <Poem Title> tries to read a poem using only its title, without asking for the author's name.\n Recommend gives you the recommended poets on the Poetry Foundation Poets page.\n Exit ends your use of Poetry Reader.\n And, of course, help tells you the above."
+          puts " Put a poet's name if you'd like to read one of their poems.\n List lists all of the poets that you've already requested to read poems from during this use of Poetry Reader.\n Read <Poem Title> tries to read a poem using only its title, without asking for the author's name.\n Recommend gives you the recommended poets on the Poetry Foundation Poets page.\n Exit ends your use of Poetry Reader.\n And, of course, help tells you the above."
 
         #if none of these are the request, then we assume they've given us a poet's name
         else
@@ -62,6 +65,7 @@ class CLI
             if guess != ""
               puts "That poet or command can't be found. Did you mean #{guess}? y/(n)"
               resp = gets.chop
+              puts ""
 
               if resp == "y"
                 poet = Poet.find_or_create_new(guess)
@@ -78,6 +82,7 @@ class CLI
       else
         puts "Which of #{poet.name}'s poems would you like to read? (help)"
         ask = gets.chop
+        puts ""
 
         #if the user asks to exit, then we do so.
         if ask_compare(ask, "exit")
@@ -98,12 +103,11 @@ class CLI
 
         #if the user needs help, we give them all possible commands at this stage
         elsif ask_compare(ask, "help")
-          puts "Put a poem's name if you'd like to read it.\n Back brings you back to inputting poets' names.\n Bio gives you the biography of the poet. \n List lists all of the readable poems that the currently selected author wrote.\n Exit ends your use of Poetry Reader.\n And, of course, help tells you the above."
+          puts " Put a poem's name if you'd like to read it.\n Back brings you back to inputting poets' names.\n Bio gives you the biography of the poet. \n List lists all of the readable poems that the currently selected author wrote.\n Exit ends your use of Poetry Reader.\n And, of course, help tells you the above."
 
         #if none of these are the request, then we assume they've given us a poem's title
         else
           begin
-            puts ""
             Poem.read(ask, poet)
           #if there is no poem with this title and author, then we rescue and alert the user
           rescue NoMethodError => error
